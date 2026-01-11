@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrivacyGuard AI - Protect Your Data Before You Share It</title>
+    
+    <!-- Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Icons: Phosphor -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <style>
+        /* ============================================
+           CSS VARIABLES & THEME
+           ============================================ */
+        :root {
+            --bg-page: #FAFAFA;
+            --bg-card: #FFFFFF;
+            --text-primary: #0F172A;
+            --text-secondary: #64748B;
+            --border-subtle: #E2E8F0;
+            --accent: #0F172A;
+            --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glow-green: rgba(34, 197, 94, 0.4);
+            --glow-blue: rgba(59, 130, 246, 0.4);
+            --glow-purple: rgba(168, 85, 247, 0.4);
+        }
+
+        [data-theme="dark"] {
+            --bg-page: #0A0A0B;
+            --bg-card: #141415;
+            --text-primary: #F8FAFC;
+            --text-secondary: #94A3B8;
+            --border-subtle: #27272A;
+            --accent: #22C55E;
+            --accent-gradient: linear-gradient(135deg, #22C55E 0%, #10B981 100%);
+        }
+
+        * {
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Selection */
+        ::selection {
+            background: rgba(34, 197, 94, 0.3);
+            color: inherit;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-page);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #CBD5E1 0%, #94A3B8 100%);
+            border-radius: 10px;
+            border: 2px solid var(--bg-page);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #94A3B8 0%, #64748B 100%);
+        }
+        [data-theme="dark"] ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #3F3F46 0%, #27272A 100%);
+        }
+
+        /* ============================================
+           ANIMATIONS
+           ============================================ */
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(3deg); }
+        }
+        @keyframes float-medium {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(-2deg); }
+        }
+        @keyframes float-fast {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+        @keyframes rotate-slow {
+            0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(15px, -20px) rotate(3deg); }
+            50% { transform: translate(-10px, -35px) rotate(-2deg); }
+            75% { transform: translate(-20px, -15px) rotate(2deg); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink {
+            0%, 50% { border-color: transparent; }
+            51%, 100% { border-color: currentColor; }
+        }
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes bounce-subtle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 20px var(--glow-green); }
+            50% { box-shadow: 0 0 40px var(--glow-green), 0 0 60px var(--glow-blue); }
+        }
+
+        .animate-float-slow { animation: float-slow 8s ease-in-out infinite; }
+        .animate-float-medium { animation: float-medium 6s ease-in-out infinite; }
+        .animate-float-fast { animation: float-fast 4s ease-in-out infinite; }
+        .animate-rotate-slow { animation: rotate-slow 30s linear infinite; }
+        .animate-pulse-glow { animation: pulse-glow 4s ease-in-out infinite; }
+        .animate-drift { animation: drift 12s ease-in-out infinite; }
+        .animate-shimmer { 
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        .animate-gradient {
+            background-size: 200% 200%;
+            animation: gradient-shift 5s ease infinite;
+        }
+        .animate-bounce-subtle { animation: bounce-subtle 2s ease-in-out infinite; }
+        .animate-glow { animation: glow-pulse 3s ease-in-out infinite; }
+
+        /* Fade in on scroll */
+        .fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+        .fade-in-scale {
+            animation: fadeInScale 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           3D ELEMENTS
+           ============================================ */
+        .perspective-container {
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+
+        .cube-3d {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate-slow 25s linear infinite;
+        }
+        .cube-face {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+        }
+        [data-theme="dark"] .cube-face {
+            border-color: rgba(34, 197, 94, 0.2);
+            background: linear-gradient(135deg, rgba(34,197,94,0.1) 0%, rgba(16,185,129,0.05) 100%);
+        }
+        .cube-front { transform: translateZ(40px); }
+        .cube-back { transform: rotateY(180deg) translateZ(40px); }
+        .cube-right { transform: rotateY(90deg) translateZ(40px); }
+        .cube-left { transform: rotateY(-90deg) translateZ(40px); }
+        .cube-top { transform: rotateX(90deg) translateZ(40px); }
+        .cube-bottom { transform: rotateX(-90deg) translateZ(40px); }
+
+        /* Gradient Orbs */
+        .orb {
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+        }
+        .orb-green {
+            background: radial-gradient(circle, rgba(34, 197, 94, 0.4) 0%, transparent 70%);
+        }
+        .orb-blue {
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+        }
+        .orb-purple {
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
+        }
+        [data-theme="dark"] .orb-green {
+            background: radial-gradient(circle, rgba(34, 197, 94, 0.2) 0%, transparent 70%);
+        }
+
+        /* Grid Pattern */
+        .grid-pattern {
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+        [data-theme="dark"] .grid-pattern {
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+        }
+
+        /* ============================================
+           COMPONENTS
+           ============================================ */
+        
+        /* Glass Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+        [data-theme="dark"] .glass-card {
+            background: rgba(20, 20, 21, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Feature Card */
+        .feature-card {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #22C55E, #10B981, #059669);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        [data-theme="dark"] .feature-card:hover {
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(34, 197, 94, 0.1);
+        }
+        .feature-card .icon-box {
+            transition: all 0.4s ease;
+        }
+        .feature-card:hover .icon-box {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        /* CTA Button */
+        .cta-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+        .cta-btn:hover::before {
+            left: 100%;
+        }
+        .cta-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.15);
+        }
+        .cta-btn:active {
+            transform: translateY(-1px) scale(1);
+        }
+        [data-theme="dark"] .cta-btn {
+            background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+        [data-theme="dark"] .cta-btn:hover {
+            box-shadow: 0 15px 40px rgba(34, 197, 94, 0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+
+        /* Secondary Button */
+        .btn-secondary {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-secondary:hover {
+            background: var(--bg-card);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Step Number */
+        .step-number {
+            position: relative;
+            background: linear-gradient(135deg, #0F172A 0%, #334155 100%);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+        }
+        .step-number::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: inherit;
+            background: linear-gradient(135deg, #22C55E, #10B981);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .step-card:hover .step-number::after {
+            opacity: 1;
+        }
+        .step-card:hover .step-number {
+            transform: scale(1.1);
+        }
+        [data-theme="dark"] .step-number {
+            background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+        }
+
+        /* Pricing Card */
+        .pricing-card {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+        .pricing-card.featured {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            border: 2px solid transparent;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+        }
+        .pricing-card.featured::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(135deg, #22C55E, #10B981, #059669);
+            border-radius: inherit;
+            z-index: -1;
+        }
+        [data-theme="dark"] .pricing-card.featured {
+            background: linear-gradient(135deg, #141415 0%, #1F1F23 100%);
+        }
+
+        /* Stats Counter */
+        .stat-counter {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            transition: all 0.3s ease;
+        }
+        .stat-counter:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(34, 197, 94, 0.2);
+            border-color: rgba(34, 197, 94, 0.4);
+        }
+
+        /* Testimonial Card */
+        .testimonial-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            transition: all 0.4s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+        [data-theme="dark"] .testimonial-card:hover {
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* FAQ Accordion */
+        .faq-item {
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-card);
+            transition: all 0.3s ease;
+        }
+        .faq-item:hover {
+            border-color: #22C55E;
+        }
+        .faq-item.active {
+            border-color: #22C55E;
+            box-shadow: 0 10px 30px rgba(34, 197, 94, 0.1);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        /* Interactive Demo */
+        .demo-scanner {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        [data-theme="dark"] .demo-scanner {
+            background: linear-gradient(135deg, #141415 0%, #1F1F23 100%);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        .demo-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .demo-input:focus {
+            outline: none;
+            border-color: #22C55E;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+        }
+
+        /* Floating CTA */
+        .floating-cta {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+        .floating-cta.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+        .floating-cta button {
+            background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+            box-shadow: 0 10px 30px rgba(34, 197, 94, 0.4);
+            transition: all 0.3s ease;
+        }
+        .floating-cta button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(34, 197, 94, 0.5);
+        }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            width: 50px;
+            height: 26px;
+            background: #E2E8F0;
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .theme-toggle::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        [data-theme="dark"] .theme-toggle {
+            background: #22C55E;
+        }
+        [data-theme="dark"] .theme-toggle::after {
+            left: 26px;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-page);
+            z-index: 200;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* Typing effect */
+        .typing-text {
+            display: inline-block;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid currentColor;
+            animation: typewriter 3s steps(30) 1s forwards, blink 0.8s step-end infinite;
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #22C55E 0%, #10B981 50%, #059669 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Noise overlay */
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Dark mode overrides */
+        [data-theme="dark"] .bg-white { background-color: var(--bg-card) !important; }
+        [data-theme="dark"] .bg-gray-50 { background-color: #0F0F10 !important; }
+        [data-theme="dark"] .bg-gray-100 { background-color: #1A1A1C !important; }
+        [data-theme="dark"] .border-gray-100 { border-color: #27272A !important; }
+        [data-theme="dark"] .border-gray-200 { border-color: #27272A !important; }
+        [data-theme="dark"] .text-gray-900 { color: #F8FAFC !important; }
+        [data-theme="dark"] .text-gray-800 { color: #E2E8F0 !important; }
+        [data-theme="dark"] .text-gray-700 { color: #CBD5E1 !important; }
+        [data-theme="dark"] .text-gray-600 { color: #94A3B8 !important; }
+        [data-theme="dark"] .text-gray-500 { color: #64748B !important; }
+        [data-theme="dark"] .text-gray-400 { color: #475569 !important; }
+        [data-theme="dark"] .text-black { color: #F8FAFC !important; }
+        [data-theme="dark"] .bg-black { background-color: #22C55E !important; }
+        [data-theme="dark"] .hover\:bg-gray-100:hover { background-color: #27272A !important; }
+        [data-theme="dark"] .hover\:bg-gray-200:hover { background-color: #3F3F46 !important; }
+        
+        /* Dark mode sections fix */
+        [data-theme="dark"] .bg-white\/50 { background-color: rgba(20, 20, 21, 0.5) !important; }
+        [data-theme="dark"] .bg-gradient-to-b.from-gray-50 { background: linear-gradient(to bottom, #0F0F10, #141415) !important; }
+        [data-theme="dark"] .bg-gradient-to-b.from-gray-50.to-white { background: linear-gradient(to bottom, #0F0F10, #141415) !important; }
+        [data-theme="dark"] section.bg-gradient-to-b { background: linear-gradient(to bottom, #0A0A0B, #141415) !important; }
+        [data-theme="dark"] .border-t.border-gray-100 { border-color: #27272A !important; }
+        [data-theme="dark"] footer.bg-white { background-color: #0A0A0B !important; }
+        
+        /* Dark mode pricing cards */
+        [data-theme="dark"] .pricing-card.bg-white { background-color: #141415 !important; border-color: #27272A !important; }
+        [data-theme="dark"] .pricing-card .text-gray-900 { color: #F8FAFC !important; }
+        [data-theme="dark"] .pricing-card .text-gray-700 { color: #CBD5E1 !important; }
+        [data-theme="dark"] .pricing-card .text-gray-600 { color: #A1A1AA !important; }
+        [data-theme="dark"] .pricing-card .text-gray-500 { color: #71717A !important; }
+        [data-theme="dark"] .pricing-card .bg-gray-100 { background-color: #27272A !important; }
+        [data-theme="dark"] .pricing-card .hover\:bg-gray-200:hover { background-color: #3F3F46 !important; }
+        
+        /* Dark mode testimonials */
+        [data-theme="dark"] .testimonial-card { background-color: #141415 !important; border-color: #27272A !important; }
+        [data-theme="dark"] .testimonial-card .text-gray-600 { color: #A1A1AA !important; }
+        [data-theme="dark"] .testimonial-card .text-gray-900 { color: #F8FAFC !important; }
+        [data-theme="dark"] .testimonial-card .text-gray-500 { color: #71717A !important; }
+        
+        /* Dark mode FAQ */
+        [data-theme="dark"] .faq-item { background-color: #141415 !important; border-color: #27272A !important; }
+        [data-theme="dark"] .faq-item .text-gray-900 { color: #F8FAFC !important; }
+        [data-theme="dark"] .faq-item .text-gray-600 { color: #A1A1AA !important; }
+        [data-theme="dark"] .faq-item .text-gray-400 { color: #71717A !important; }
+        
+        /* Dark mode stats section */
+        [data-theme="dark"] .stat-counter { background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(16, 185, 129, 0.08) 100%) !important; border-color: rgba(34, 197, 94, 0.3) !important; }
+        
+        /* Dark mode feature cards */
+        [data-theme="dark"] .feature-card.glass-card { background: rgba(20, 20, 21, 0.8) !important; border-color: #27272A !important; }
+        
+        /* Dark mode detection engine section */
+        [data-theme="dark"] .bg-gradient-to-b.from-gray-50.to-white { background: #0A0A0B !important; }
+        [data-theme="dark"] section .bg-white.rounded-2xl { background-color: #141415 !important; }
+        [data-theme="dark"] section .bg-white.rounded-3xl { background-color: #141415 !important; }
+        [data-theme="dark"] section .border-gray-100 { border-color: #27272A !important; }
+        [data-theme="dark"] section .border-gray-200 { border-color: #27272A !important; }
+        [data-theme="dark"] section .bg-gray-50.rounded-2xl { background-color: #0F0F10 !important; }
+        
+        /* Dark mode privacy section cards */
+        [data-theme="dark"] .glass-card .bg-white { background-color: #1A1A1C !important; }
+        [data-theme="dark"] .glass-card .border-gray-100 { border-color: #27272A !important; }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Noise Overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- 3D Background Elements -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <!-- Gradient Orbs -->
+        <div class="orb orb-green absolute w-[700px] h-[700px] -top-64 -right-64 animate-pulse-glow"></div>
+        <div class="orb orb-blue absolute w-[600px] h-[600px] top-1/3 -left-64 animate-pulse-glow" style="animation-delay: 2s;"></div>
+        <div class="orb orb-purple absolute w-[500px] h-[500px] bottom-0 right-1/4 animate-pulse-glow" style="animation-delay: 1s;"></div>
+
+        <!-- 3D Cubes -->
+        <div class="perspective-container absolute top-[15%] right-[12%] opacity-50">
+            <div class="cube-3d">
+                <div class="cube-face cube-front"></div>
+                <div class="cube-face cube-back"></div>
+                <div class="cube-face cube-right"></div>
+                <div class="cube-face cube-left"></div>
+                <div class="cube-face cube-top"></div>
+                <div class="cube-face cube-bottom"></div>
+            </div>
+        </div>
+        <div class="perspective-container absolute bottom-[25%] left-[8%] opacity-30">
+            <div class="cube-3d" style="width: 60px; height: 60px; animation-duration: 40s;">
+                <div class="cube-face" style="width: 60px; height: 60px; transform: translateZ(30px);"></div>
+                <div class="cube-face" style="width: 60px; height: 60px; transform: rotateY(180deg) translateZ(30px);"></div>
+                <div class="cube-face" style="width: 60px; height: 60px; transform: rotateY(90deg) translateZ(30px);"></div>
+                <div class="cube-face" style="width: 60px; height: 60px; transform: rotateY(-90deg) translateZ(30px);"></div>
+                <div class="cube-face" style="width: 60px; height: 60px; transform: rotateX(90deg) translateZ(30px);"></div>
+                <div class="cube-face" style="width: 60px; height: 60px; transform: rotateX(-90deg) translateZ(30px);"></div>
+            </div>
+        </div>
+
+        <!-- Floating Shapes -->
+        <div class="absolute top-[35%] right-[6%] w-24 h-24 border border-white/10 rounded-3xl rotate-12 animate-float-slow backdrop-blur-sm bg-white/5"></div>
+        <div class="absolute top-[55%] right-[22%] w-16 h-16 border border-white/10 rounded-full animate-float-medium bg-white/5"></div>
+        <div class="absolute top-[12%] left-[18%] w-20 h-20 border border-white/10 rounded-2xl -rotate-12 animate-drift bg-white/5"></div>
+        <div class="absolute bottom-[18%] right-[35%] w-10 h-10 border border-white/10 rounded-xl rotate-45 animate-float-fast bg-white/5"></div>
+        <div class="absolute top-[70%] left-[12%] w-14 h-14 border border-white/10 rounded-2xl rotate-6 animate-float-medium bg-white/5"></div>
+
+        <!-- Floating Icons -->
+        <i class="ph ph-shield-check absolute top-[25%] left-[6%] text-[140px] text-black/[0.02] animate-float-slow"></i>
+        <i class="ph ph-lock-key absolute bottom-[12%] right-[10%] text-[120px] text-black/[0.02] animate-float-medium"></i>
+        <i class="ph ph-eye-slash absolute top-[45%] right-[4%] text-[100px] text-black/[0.015] animate-drift"></i>
+        <i class="ph ph-fingerprint absolute bottom-[35%] left-[4%] text-[110px] text-black/[0.015] animate-float-fast"></i>
+    </div>
+
+    <!-- Grid Pattern -->
+    <div class="fixed inset-0 grid-pattern pointer-events-none z-0 opacity-60"></div>
+
+    <!-- Navigation -->
+    <header class="relative z-50 max-w-7xl mx-auto px-6 py-5">
+        <nav class="flex items-center justify-between">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-green-500/30 group-hover:shadow-green-500/50 group-hover:scale-105 transition-all">
+                    <i class="ph ph-shield-check text-xl"></i>
+                </div>
+                <span class="font-bold text-xl tracking-tight">PrivacyGuard<span class="gradient-text">AI</span></span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#features" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Features</a>
+                <a href="#demo" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Demo</a>
+                <a href="#how-it-works" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">How It Works</a>
+                <a href="#pricing" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">Pricing</a>
+                <a href="#faq" class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">FAQ</a>
+            </div>
+
+            <!-- Right Side -->
+            <div class="hidden md:flex items-center gap-4">
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()" class="theme-toggle" title="Toggle Dark Mode"></button>
+                
+                <!-- CTA -->
+                <a href="app.html" class="cta-btn text-white px-6 py-3 rounded-full text-sm font-semibold flex items-center gap-2">
+                    <span>Launch App</span>
+                    <i class="ph ph-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-gray-600 hover:text-gray-900">
+                <i class="ph ph-list text-2xl"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu md:hidden">
+        <div class="p-6 flex flex-col h-full">
+            <div class="flex items-center justify-between mb-10">
+                <a href="index.html" class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center text-white">
+                        <i class="ph ph-shield-check text-lg"></i>
+                    </div>
+                    <span class="font-bold text-lg">PrivacyGuard AI</span>
+                </a>
+                <button onclick="toggleMobileMenu()" class="p-2">
+                    <i class="ph ph-x text-2xl"></i>
+                </button>
+            </div>
+            <div class="flex-1 flex flex-col gap-4">
+                <a href="#features" onclick="toggleMobileMenu()" class="py-3 text-lg font-medium border-b border-gray-100">Features</a>
+                <a href="#demo" onclick="toggleMobileMenu()" class="py-3 text-lg font-medium border-b border-gray-100">Demo</a>
+                <a href="#how-it-works" onclick="toggleMobileMenu()" class="py-3 text-lg font-medium border-b border-gray-100">How It Works</a>
+                <a href="#pricing" onclick="toggleMobileMenu()" class="py-3 text-lg font-medium border-b border-gray-100">Pricing</a>
+                <a href="#faq" onclick="toggleMobileMenu()" class="py-3 text-lg font-medium border-b border-gray-100">FAQ</a>
+            </div>
+            <div class="pt-6 border-t border-gray-100">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-sm text-gray-500">Dark Mode</span>
+                    <button onclick="toggleTheme()" class="theme-toggle"></button>
+                </div>
+                <a href="app.html" class="cta-btn text-white px-6 py-4 rounded-xl text-base font-semibold flex items-center justify-center gap-2 w-full">
+                    <span>Launch App</span>
+                    <i class="ph ph-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative z-10 max-w-7xl mx-auto px-6 pt-16 pb-24 md:pt-24 md:pb-36">
+        <div class="max-w-4xl mx-auto text-center">
+            <!-- Badge -->
+            <div class="fade-in-up inline-flex items-center gap-3 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border border-gray-200 rounded-full px-5 py-2 mb-8 shadow-lg">
+                <div class="flex items-center gap-1">
+                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
+                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
+                </div>
+                <span class="text-sm font-semibold text-gray-700">100% Local Processing • Zero Data Collection</span>
+            </div>
+
+            <!-- Headline -->
+            <h1 class="fade-in-up delay-100 text-5xl md:text-7xl lg:text-8xl font-black tracking-tight mb-8 leading-[1.05]">
+                Protect Your Data
+                <span class="block gradient-text">Before You Share It</span>
+            </h1>
+
+            <!-- Subheadline -->
+            <p class="fade-in-up delay-200 text-xl md:text-2xl text-gray-500 max-w-2xl mx-auto mb-12 leading-relaxed">
+                Scan AI prompts, emails, and content for <strong class="text-gray-700">sensitive information</strong>, <strong class="text-gray-700">scam patterns</strong>, and <strong class="text-gray-700">privacy risks</strong> — instantly and entirely on your device.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="fade-in-up delay-300 flex flex-col sm:flex-row items-center justify-center gap-5">
+                <a href="app.html" class="cta-btn text-white px-10 py-5 rounded-full text-lg font-bold flex items-center gap-3 shadow-2xl animate-glow">
+                    <i class="ph ph-play-circle text-2xl"></i>
+                    <span>Start Scanning Free</span>
+                    <i class="ph ph-arrow-right text-xl"></i>
+                </a>
+                <a href="#demo" class="btn-secondary flex items-center gap-2 text-gray-600 hover:text-gray-900 px-8 py-5 rounded-full border border-gray-200 bg-white/50 backdrop-blur-sm">
+                    <i class="ph ph-play text-lg"></i>
+                    <span class="font-semibold">Try Live Demo</span>
+                </a>
+            </div>
+
+            <!-- Trust Indicators -->
+            <div class="fade-in-up delay-400 flex flex-wrap items-center justify-center gap-8 mt-16 pt-10 border-t border-gray-200">
+                <div class="flex items-center gap-2 text-gray-500">
+                    <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                        <i class="ph ph-lock-key text-xl text-green-600"></i>
+                    </div>
+                    <span class="text-sm font-medium">End-to-End Local</span>
+                </div>
+                <div class="flex items-center gap-2 text-gray-500">
+                    <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                        <i class="ph ph-eye-slash text-xl text-blue-600"></i>
+                    </div>
+                    <span class="text-sm font-medium">Zero Data Collection</span>
+                </div>
+                <div class="flex items-center gap-2 text-gray-500">
+                    <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
+                        <i class="ph ph-lightning text-xl text-purple-600"></i>
+                    </div>
+                    <span class="text-sm font-medium">Instant Results</span>
+                </div>
+                <div class="flex items-center gap-2 text-gray-500">
+                    <div class="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
+                        <i class="ph ph-device-mobile text-xl text-orange-600"></i>
+                    </div>
+                    <span class="text-sm font-medium">Works Offline</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Stats Section -->
+    <section class="relative z-10 py-16 border-y border-gray-100 bg-white/50 backdrop-blur-sm" style="background-color: var(--bg-card);">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="stat-counter text-center p-6 rounded-2xl reveal">
+                    <div class="text-4xl md:text-5xl font-black gradient-text mb-2" data-count="55">0</div>
+                    <div class="text-sm text-gray-500 font-medium">Detection Patterns</div>
+                </div>
+                <div class="stat-counter text-center p-6 rounded-2xl reveal" style="transition-delay: 0.1s;">
+                    <div class="text-4xl md:text-5xl font-black gradient-text mb-2" data-count="100">0</div>
+                    <div class="text-sm text-gray-500 font-medium">% Local Processing</div>
+                </div>
+                <div class="stat-counter text-center p-6 rounded-2xl reveal" style="transition-delay: 0.2s;">
+                    <div class="text-4xl md:text-5xl font-black gradient-text mb-2" data-count="0">0</div>
+                    <div class="text-sm text-gray-500 font-medium">Data Collected</div>
+                </div>
+                <div class="stat-counter text-center p-6 rounded-2xl reveal" style="transition-delay: 0.3s;">
+                    <div class="text-4xl md:text-5xl font-black gradient-text mb-2">&lt;1s</div>
+                    <div class="text-sm text-gray-500 font-medium">Scan Speed</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="relative z-10 py-28" style="background: var(--bg-card);">
+        <div class="max-w-6xl mx-auto px-6">
+            <!-- Section Header -->
+            <div class="text-center mb-20 reveal">
+                <div class="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                    <i class="ph ph-sparkle"></i>
+                    <span>Features</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6">Everything You Need to Stay Safe</h2>
+                <p class="text-xl text-gray-500 max-w-2xl mx-auto">Four powerful scanners to protect your privacy across different contexts.</p>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Feature 1 -->
+                <div class="feature-card glass-card rounded-3xl p-8 reveal">
+                    <div class="icon-box w-16 h-16 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-purple-500/30">
+                        <i class="ph ph-robot text-3xl text-white"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-gray-900 mb-3">AI Prompt Checker</h3>
+                    <p class="text-gray-500 leading-relaxed">Scan prompts for secrets, PII, and confidential data before sending to LLMs.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card glass-card rounded-3xl p-8 reveal" style="transition-delay: 0.1s;">
+                    <div class="icon-box w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-orange-500/30">
+                        <i class="ph ph-envelope-simple-open text-3xl text-white"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-gray-900 mb-3">Phishing Detector</h3>
+                    <p class="text-gray-500 leading-relaxed">Analyze emails for urgency tactics, impersonation, and fraud patterns.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card glass-card rounded-3xl p-8 reveal" style="transition-delay: 0.2s;">
+                    <div class="icon-box w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30">
+                        <i class="ph ph-globe text-3xl text-white"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-gray-900 mb-3">Website Scanner</h3>
+                    <p class="text-gray-500 leading-relaxed">Check URLs for trackers, insecure protocols, and suspicious parameters.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="feature-card glass-card rounded-3xl p-8 reveal" style="transition-delay: 0.3s;">
+                    <div class="icon-box w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-pink-500/30">
+                        <i class="ph ph-user-focus text-3xl text-white"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-gray-900 mb-3">Exposure Analyzer</h3>
+                    <p class="text-gray-500 leading-relaxed">Detect identity exposure risks in social posts, bios, and resumes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Section -->
+    <section id="demo" class="relative z-10 py-28" style="background: var(--bg-page);">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                    <i class="ph ph-play"></i>
+                    <span>Live Demo</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6">Try It Right Now</h2>
+                <p class="text-xl text-gray-500 max-w-2xl mx-auto">See how PrivacyGuard AI detects risks in real-time. Type anything below.</p>
+            </div>
+
+            <!-- Demo Scanner -->
+            <div class="demo-scanner rounded-3xl overflow-hidden reveal max-w-4xl mx-auto">
+                <!-- Window Header -->
+                <div class="flex items-center justify-between px-6 py-4 border-b border-white/10">
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <div class="flex items-center gap-2 text-white/60 text-sm">
+                        <i class="ph ph-shield-check"></i>
+                        <span>PrivacyGuard AI Scanner</span>
+                    </div>
+                    <div class="w-16"></div>
+                </div>
+                
+                <!-- Demo Content -->
+                <div class="p-8">
+                    <textarea id="demo-input" class="demo-input w-full h-40 p-5 rounded-xl text-base font-mono resize-none placeholder-white/40" placeholder="Try typing something like: My email is john@example.com and my SSN is 123-45-6789. Click here to claim your prize!"></textarea>
+                    
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
+                        <div class="flex items-center gap-4 text-white/60 text-sm">
+                            <span class="flex items-center gap-1"><i class="ph ph-lock-key"></i> Local Only</span>
+                            <span class="flex items-center gap-1"><i class="ph ph-eye-slash"></i> Not Saved</span>
+                        </div>
+                        <button onclick="runDemoScan()" class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:shadow-lg hover:shadow-green-500/30 transition-all hover:-translate-y-1">
+                            <i class="ph ph-scan"></i>
+                            <span>Analyze</span>
+                        </button>
+                    </div>
+
+                    <!-- Results Area -->
+                    <div id="demo-results" class="mt-8 hidden">
+                        <div class="bg-white/10 rounded-xl p-6 border border-white/10">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-white/60 text-sm font-medium">Risk Score</span>
+                                <span id="demo-score" class="text-3xl font-black text-green-400">0/100</span>
+                            </div>
+                            <div class="h-3 bg-white/20 rounded-full overflow-hidden">
+                                <div id="demo-score-bar" class="h-full bg-gradient-to-r from-green-500 to-emerald-400 rounded-full transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                            <div id="demo-findings" class="mt-6 space-y-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="relative z-10 py-28">
+        <div class="max-w-6xl mx-auto px-6">
+            <!-- Section Header -->
+            <div class="text-center mb-20 reveal">
+                <div class="inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                    <i class="ph ph-path"></i>
+                    <span>How It Works</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6">Simple, Fast, Private</h2>
+                <p class="text-xl text-gray-500 max-w-2xl mx-auto">Three steps to secure your content — all happening locally in your browser.</p>
+            </div>
+
+            <!-- Steps -->
+            <div class="relative max-w-5xl mx-auto">
+                <!-- Connection Line -->
+                <div class="hidden lg:block absolute top-24 left-1/2 -translate-x-1/2 w-2/3 h-1 bg-gradient-to-r from-green-500 via-emerald-500 to-green-500 rounded-full opacity-20"></div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                    <!-- Step 1 -->
+                    <div class="step-card text-center reveal">
+                        <div class="step-number w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-8 text-3xl font-black text-white">1</div>
+                        <h3 class="font-bold text-xl text-gray-900 mb-3">Paste Your Content</h3>
+                        <p class="text-gray-500">Copy any text, email, prompt, or URL you want to check for privacy risks.</p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="step-card text-center reveal" style="transition-delay: 0.15s;">
+                        <div class="step-number w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-8 text-3xl font-black text-white">2</div>
+                        <h3 class="font-bold text-xl text-gray-900 mb-3">Instant Analysis</h3>
+                        <p class="text-gray-500">Our engine scans for 55+ risk patterns in milliseconds, all locally.</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="step-card text-center reveal" style="transition-delay: 0.3s;">
+                        <div class="step-number w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-8 text-3xl font-black text-white">3</div>
+                        <h3 class="font-bold text-xl text-gray-900 mb-3">Get Actionable Report</h3>
+                        <p class="text-gray-500">See highlighted risks, scores, and one-click redaction options.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detection Engine Section -->
+    <section class="relative z-10 py-28 overflow-hidden" style="background: var(--bg-page);">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Left Content -->
+                <div class="reveal">
+                    <div class="inline-flex items-center gap-2 bg-red-100 text-red-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                        <i class="ph ph-radar"></i>
+                        <span>Detection Engine</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6">55+ Risk Patterns</h2>
+                    <p class="text-xl text-gray-500 mb-10 leading-relaxed">Our scanning engine identifies a wide range of sensitive information and threats, from personal identifiers to sophisticated scam tactics.</p>
+                    
+                    <div class="space-y-5">
+                        <div class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-rose-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-red-500/30">
+                                <i class="ph ph-identification-card text-xl text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-1">Personal Information (PII)</h4>
+                                <p class="text-sm text-gray-500">SSN, Credit Cards, Phone Numbers, Emails, IP Addresses, GPS Coordinates</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-yellow-500/30">
+                                <i class="ph ph-warning text-xl text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-1">Scam Indicators</h4>
+                                <p class="text-sm text-gray-500">Urgency Tactics, Authority Impersonation, Prize Baits, Suspicious URLs</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-purple-500/30">
+                                <i class="ph ph-key text-xl text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-1">Credentials & Secrets</h4>
+                                <p class="text-sm text-gray-500">API Keys, Passwords, Tokens, SSH Keys, Database Connections</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-blue-500/30">
+                                <i class="ph ph-briefcase text-xl text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-1">Corporate & Compliance</h4>
+                                <p class="text-sm text-gray-500">Confidential Data, NDA Terms, GDPR, HIPAA, Internal IPs</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Visual -->
+                <div class="relative reveal" style="transition-delay: 0.2s;">
+                    <div class="bg-white rounded-3xl p-8 border border-gray-200 shadow-2xl">
+                        <!-- Mock Scanner -->
+                        <div class="bg-gray-50 rounded-2xl overflow-hidden border border-gray-100">
+                            <div class="p-4 border-b border-gray-100 flex items-center gap-2 bg-white">
+                                <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                            </div>
+                            <div class="p-6">
+                                <p class="text-sm text-gray-600 font-mono leading-relaxed">
+                                    My email is <span class="bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-semibold">john@example.com</span> and my SSN is <span class="bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-semibold">123-45-6789</span>. Please <span class="bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded font-semibold">click this link</span> to <span class="bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded font-semibold">claim your prize</span>!
+                                </p>
+                            </div>
+                            <div class="p-6 bg-gradient-to-r from-red-50 to-orange-50 border-t border-gray-100">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-sm font-bold text-gray-700">Risk Score</span>
+                                    <span class="text-3xl font-black text-red-600">85/100</span>
+                                </div>
+                                <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
+                                    <div class="h-full w-[85%] bg-gradient-to-r from-red-500 to-orange-500 rounded-full"></div>
+                                </div>
+                                <div class="mt-4 flex flex-wrap gap-2">
+                                    <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-semibold">Email Exposed</span>
+                                    <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-semibold">SSN Detected</span>
+                                    <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-semibold">Scam Pattern</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Decorative Elements -->
+                    <div class="absolute -top-6 -right-6 w-32 h-32 bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl opacity-10 animate-float-slow"></div>
+                    <div class="absolute -bottom-4 -left-4 w-24 h-24 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl opacity-10 animate-float-medium"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Promise Section -->
+    <section id="privacy" class="relative z-10 py-28">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="glass-card rounded-[3rem] p-12 md:p-16 text-center reveal">
+                <!-- Icon -->
+                <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl mb-10 shadow-2xl shadow-green-500/30 animate-bounce-subtle">
+                    <i class="ph ph-lock-key text-5xl text-white"></i>
+                </div>
+
+                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6">Your Data Never Leaves Your Device</h2>
+                <p class="text-xl text-gray-500 max-w-2xl mx-auto mb-14 leading-relaxed">
+                    Unlike cloud-based tools, PrivacyGuard AI runs <strong class="text-gray-700">entirely in your browser</strong>. No servers, no uploads, no tracking — just you and your data.
+                </p>
+
+                <!-- Privacy Features Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1">
+                        <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="ph ph-cloud-slash text-2xl text-green-600"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-1">No Cloud</h4>
+                        <p class="text-sm text-gray-500">Zero server uploads</p>
+                    </div>
+                    <div class="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1">
+                        <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="ph ph-database text-2xl text-blue-600"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-1">No Storage</h4>
+                        <p class="text-sm text-gray-500">Nothing is saved</p>
+                    </div>
+                    <div class="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1">
+                        <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="ph ph-cookie text-2xl text-purple-600"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-1">No Cookies</h4>
+                        <p class="text-sm text-gray-500">No tracking at all</p>
+                    </div>
+                    <div class="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1">
+                        <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="ph ph-user-circle text-2xl text-orange-600"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 mb-1">No Accounts</h4>
+                        <p class="text-sm text-gray-500">Just open and use</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="relative z-10 py-28" style="background: var(--bg-page);">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <div class="inline-flex items-center gap-2 bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                    <i class="ph ph-chat-circle-text"></i>
+                    <span>Testimonials</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6">Loved by Privacy-Conscious Users</h2>
+                <p class="text-xl text-gray-500 max-w-2xl mx-auto">See what our users say about protecting their data with PrivacyGuard AI.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card p-8 rounded-3xl reveal">
+                    <div class="flex items-center gap-1 text-yellow-400 mb-4">
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6 leading-relaxed">"I use ChatGPT daily for work. PrivacyGuard AI caught sensitive client data in my prompts that I almost sent. Absolute lifesaver!"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-gradient-to-br from-violet-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">SM</div>
+                        <div>
+                            <div class="font-bold text-gray-900">Sarah M.</div>
+                            <div class="text-sm text-gray-500">Marketing Director</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card p-8 rounded-3xl reveal" style="transition-delay: 0.1s;">
+                    <div class="flex items-center gap-1 text-yellow-400 mb-4">
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6 leading-relaxed">"The fact that everything runs locally is a game-changer. I can check emails for phishing without worrying about my data going anywhere."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-full flex items-center justify-center text-white font-bold">JC</div>
+                        <div>
+                            <div class="font-bold text-gray-900">James C.</div>
+                            <div class="text-sm text-gray-500">Software Engineer</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card p-8 rounded-3xl reveal" style="transition-delay: 0.2s;">
+                    <div class="flex items-center gap-1 text-yellow-400 mb-4">
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                        <i class="ph-fill ph-star"></i>
+                    </div>
+                    <p class="text-gray-600 mb-6 leading-relaxed">"As a freelancer, I handle lots of client info. This tool helps me make sure I don't accidentally expose anything sensitive. Highly recommend!"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold">AL</div>
+                        <div>
+                            <div class="font-bold text-gray-900">Alex L.</div>
+                            <div class="text-sm text-gray-500">Freelance Designer</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="relative z-10 py-28">
+        <div class="max-w-7xl mx-auto px-6">
+            <!-- Section Header -->
+            <div class="text-center mb-16 reveal">
+                <div class="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                    <i class="ph ph-tag"></i>
+                    <span>Pricing</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6">Choose Your Plan</h2>
+                <p class="text-xl text-gray-500 max-w-2xl mx-auto mb-8">Start free forever. Upgrade when you need advanced features.</p>
+                
+                <!-- Beta Badge -->
+                <div class="inline-flex items-center gap-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-full shadow-lg shadow-green-500/30">
+                    <div class="flex items-center gap-1">
+                        <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                    </div>
+                    <span class="font-bold">🎉 Beta Access — All features FREE during testing</span>
+                </div>
+            </div>
+
+            <!-- Pricing Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Free Tier -->
+                <div class="pricing-card bg-white rounded-3xl border-2 border-gray-200 p-8 flex flex-col reveal">
+                    <div class="mb-8">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="w-4 h-4 bg-green-500 rounded-full"></div>
+                            <h3 class="text-xl font-bold text-gray-900">Personal</h3>
+                        </div>
+                        <div class="flex items-baseline gap-2 mb-2">
+                            <span class="text-5xl font-black text-gray-900">$0</span>
+                            <span class="text-gray-500 font-medium">/forever</span>
+                        </div>
+                        <p class="text-gray-500">For individuals & casual users</p>
+                    </div>
+
+                    <div class="flex-1 mb-8">
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-check-circle text-xl text-green-500 mt-0.5"></i>
+                                <span class="text-gray-700">Unlimited privacy scans</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-check-circle text-xl text-green-500 mt-0.5"></i>
+                                <span class="text-gray-700">All 4 scanner types</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-check-circle text-xl text-green-500 mt-0.5"></i>
+                                <span class="text-gray-700">55+ detection patterns</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-check-circle text-xl text-green-500 mt-0.5"></i>
+                                <span class="text-gray-700">100% local processing</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-check-circle text-xl text-green-500 mt-0.5"></i>
+                                <span class="text-gray-700">Dark mode & themes</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="app.html" class="w-full bg-gray-100 text-gray-900 px-6 py-4 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors">
+                        Get Started Free
+                    </a>
+                </div>
+
+                <!-- Pro Tier -->
+                <div class="pricing-card featured rounded-3xl p-8 flex flex-col text-white reveal transform scale-105" style="transition-delay: 0.1s;">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-5 py-1.5 rounded-full text-sm font-bold shadow-lg">
+                        MOST POPULAR
+                    </div>
+                    
+                    <div class="mb-8">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="w-4 h-4 bg-blue-400 rounded-full"></div>
+                            <h3 class="text-xl font-bold">Professional</h3>
+                        </div>
+                        <div class="flex items-baseline gap-2 mb-2">
+                            <span class="text-5xl font-black">$15</span>
+                            <span class="text-gray-400 font-medium">/month</span>
+                        </div>
+                        <p class="text-gray-400">For creators & professionals</p>
+                    </div>
+
+                    <div class="flex-1 mb-8">
+                        <p class="text-gray-300 mb-4 font-semibold">Everything in Free, plus:</p>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-check-circle text-xl text-green-400 mt-0.5"></i>
+                                <span>Save scan history (encrypted)</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-check-circle text-xl text-green-400 mt-0.5"></i>
+                                <span>Risk Trend Analytics</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-check-circle text-xl text-green-400 mt-0.5"></i>
+                                <span>PDF Export Reports</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-check-circle text-xl text-green-400 mt-0.5"></i>
+                                <span>Custom Detection Rules</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-check-circle text-xl text-green-400 mt-0.5"></i>
+                                <span>Priority Support</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="w-full bg-white text-black px-6 py-4 rounded-xl font-bold text-center hover:bg-gray-100 transition-colors">
+                        Coming Soon
+                    </button>
+                </div>
+
+                <!-- Business Tier -->
+                <div class="pricing-card bg-white rounded-3xl border-2 border-gray-200 p-8 flex flex-col reveal" style="transition-delay: 0.2s;">
+                    <div class="mb-8">
+                        <div class="flex items-center gap-2 mb-3">
+                            <div class="w-4 h-4 bg-purple-500 rounded-full"></div>
+                            <h3 class="text-xl font-bold text-gray-900">Business</h3>
+                        </div>
+                        <div class="flex items-baseline gap-2 mb-2">
+                            <span class="text-5xl font-black text-gray-900">$49</span>
+                            <span class="text-gray-500 font-medium">/user/mo</span>
+                        </div>
+                        <p class="text-gray-500">For teams & compliance</p>
+                    </div>
+
+                    <div class="flex-1 mb-8">
+                        <p class="text-gray-700 mb-4 font-semibold">Everything in Pro, plus:</p>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-check-circle text-xl text-green-500 mt-0.5"></i>
+                                <span class="text-gray-700">Team Workspaces</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-check-circle text-xl text-green-500 mt-0.5"></i>
+                                <span class="text-gray-700">Shared Risk Policies</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-check-circle text-xl text-green-500 mt-0.5"></i>
+                                <span class="text-gray-700">Compliance Reports</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-check-circle text-xl text-green-500 mt-0.5"></i>
+                                <span class="text-gray-700">Admin Dashboard</span>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <i class="ph-fill ph-check-circle text-xl text-green-500 mt-0.5"></i>
+                                <span class="text-gray-700">SSO & Security</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="w-full bg-gray-100 text-gray-900 px-6 py-4 rounded-xl font-bold text-center hover:bg-gray-200 transition-colors">
+                        Contact Sales
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="relative z-10 py-28" style="background: var(--bg-page);">
+        <div class="max-w-3xl mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <div class="inline-flex items-center gap-2 bg-orange-100 text-orange-700 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                    <i class="ph ph-question"></i>
+                    <span>FAQ</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6">Frequently Asked Questions</h2>
+                <p class="text-xl text-gray-500">Everything you need to know about PrivacyGuard AI.</p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ 1 -->
+                <div class="faq-item rounded-2xl overflow-hidden reveal" onclick="toggleFaq(this)">
+                    <div class="p-6 flex items-center justify-between cursor-pointer">
+                        <span class="font-bold text-gray-900">Is my data really private?</span>
+                        <i class="ph ph-plus text-xl text-gray-400 faq-icon"></i>
+                    </div>
+                    <div class="faq-answer px-6 pb-6">
+                        <p class="text-gray-600 leading-relaxed">Absolutely! PrivacyGuard AI runs 100% locally in your browser. Your text is never sent to any server. We don't collect, store, or process your data anywhere. It's the most private way to scan for sensitive information.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="faq-item rounded-2xl overflow-hidden reveal" onclick="toggleFaq(this)" style="transition-delay: 0.1s;">
+                    <div class="p-6 flex items-center justify-between cursor-pointer">
+                        <span class="font-bold text-gray-900">How does it work without an internet connection?</span>
+                        <i class="ph ph-plus text-xl text-gray-400 faq-icon"></i>
+                    </div>
+                    <div class="faq-answer px-6 pb-6">
+                        <p class="text-gray-600 leading-relaxed">The entire scanning engine runs in JavaScript directly in your browser. Once the page loads, you can even go offline and it will continue to work. All pattern matching happens locally on your device.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="faq-item rounded-2xl overflow-hidden reveal" onclick="toggleFaq(this)" style="transition-delay: 0.2s;">
+                    <div class="p-6 flex items-center justify-between cursor-pointer">
+                        <span class="font-bold text-gray-900">What types of data can it detect?</span>
+                        <i class="ph ph-plus text-xl text-gray-400 faq-icon"></i>
+                    </div>
+                    <div class="faq-answer px-6 pb-6">
+                        <p class="text-gray-600 leading-relaxed">We detect 55+ risk patterns including: SSN, credit cards, phone numbers, emails, IP addresses, API keys, passwords, scam indicators, phishing tactics, corporate confidential markers, and more. The detection engine is constantly improving.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="faq-item rounded-2xl overflow-hidden reveal" onclick="toggleFaq(this)" style="transition-delay: 0.3s;">
+                    <div class="p-6 flex items-center justify-between cursor-pointer">
+                        <span class="font-bold text-gray-900">Is it free to use?</span>
+                        <i class="ph ph-plus text-xl text-gray-400 faq-icon"></i>
+                    </div>
+                    <div class="faq-answer px-6 pb-6">
+                        <p class="text-gray-600 leading-relaxed">Yes! The core scanning features are free forever with no limits. We're currently in beta, so all features including advanced analytics and history are free. Paid plans will add team features and premium support in the future.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ 5 -->
+                <div class="faq-item rounded-2xl overflow-hidden reveal" onclick="toggleFaq(this)" style="transition-delay: 0.4s;">
+                    <div class="p-6 flex items-center justify-between cursor-pointer">
+                        <span class="font-bold text-gray-900">Can I use it for work/business?</span>
+                        <i class="ph ph-plus text-xl text-gray-400 faq-icon"></i>
+                    </div>
+                    <div class="faq-answer px-6 pb-6">
+                        <p class="text-gray-600 leading-relaxed">Absolutely! Many professionals use PrivacyGuard AI to check their AI prompts, emails, and documents before sharing. Since everything stays local, it's perfect for handling confidential business information. Business plans with team features are coming soon.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="relative z-10 py-28 bg-gradient-to-br from-gray-900 via-gray-800 to-black overflow-hidden">
+        <!-- Background decorations -->
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute top-0 left-1/4 w-96 h-96 bg-green-500 rounded-full filter blur-[150px] opacity-20"></div>
+            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500 rounded-full filter blur-[150px] opacity-20"></div>
+        </div>
+        
+        <div class="max-w-4xl mx-auto px-6 text-center relative">
+            <div class="reveal">
+                <h2 class="text-4xl md:text-6xl font-black text-white mb-8">Ready to Protect<br><span class="gradient-text">Your Privacy?</span></h2>
+                <p class="text-xl text-gray-400 max-w-xl mx-auto mb-12">Start scanning your content for free. No signup required. No data collected. Just instant privacy protection.</p>
+                <a href="app.html" class="inline-flex items-center gap-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-10 py-6 rounded-full text-xl font-bold shadow-2xl shadow-green-500/30 hover:shadow-green-500/50 hover:-translate-y-2 transition-all">
+                    <i class="ph ph-shield-check text-3xl"></i>
+                    <span>Launch PrivacyGuard AI</span>
+                    <i class="ph ph-arrow-right text-2xl"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 py-16 border-t border-gray-100" style="background-color: var(--bg-card);">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-green-500/30">
+                        <i class="ph ph-shield-check text-xl"></i>
+                    </div>
+                    <span class="font-bold text-xl">PrivacyGuard AI</span>
+                </a>
+
+                <!-- Links -->
+                <div class="flex flex-wrap items-center justify-center gap-8 text-sm text-gray-500">
+                    <a href="#features" class="hover:text-gray-900 transition-colors">Features</a>
+                    <a href="#demo" class="hover:text-gray-900 transition-colors">Demo</a>
+                    <a href="#how-it-works" class="hover:text-gray-900 transition-colors">How It Works</a>
+                    <a href="#pricing" class="hover:text-gray-900 transition-colors">Pricing</a>
+                    <a href="#faq" class="hover:text-gray-900 transition-colors">FAQ</a>
+                    <a href="app.html" class="font-semibold text-green-600 hover:text-green-700">Launch App →</a>
+                </div>
+
+                <!-- Copyright -->
+                <p class="text-sm text-gray-400">© 2024 PrivacyGuard AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating CTA -->
+    <div id="floating-cta" class="floating-cta">
+        <a href="app.html">
+            <button class="text-white px-6 py-4 rounded-full font-bold flex items-center gap-2">
+                <i class="ph ph-shield-check text-xl"></i>
+                <span>Try Free</span>
+            </button>
+        </a>
+    </div>
+
+    <!-- Back to Top -->
+    <div id="back-to-top" class="back-to-top">
+        <button onclick="scrollToTop()" class="w-12 h-12 bg-gray-900 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-800 transition-colors">
+            <i class="ph ph-arrow-up text-xl"></i>
+        </button>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        }
+
+        // Load saved theme (default to dark)
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        // Mobile Menu
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('open');
+        }
+
+        // FAQ Toggle
+        function toggleFaq(element) {
+            const wasActive = element.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
+            if (!wasActive) element.classList.add('active');
+        }
+
+        // Scroll to top
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Scroll reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '-50px' });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Counter animation
+        const counters = document.querySelectorAll('[data-count]');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = parseInt(entry.target.getAttribute('data-count'));
+                    animateCounter(entry.target, target);
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(counter => counterObserver.observe(counter));
+
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 30);
+        }
+
+        // Floating CTA & Back to Top visibility
+        window.addEventListener('scroll', () => {
+            const floatingCta = document.getElementById('floating-cta');
+            const backToTop = document.getElementById('back-to-top');
+            
+            if (window.scrollY > 600) {
+                floatingCta.classList.add('visible');
+                backToTop.classList.add('visible');
+            } else {
+                floatingCta.classList.remove('visible');
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // Demo Scanner
+        function runDemoScan() {
+            const input = document.getElementById('demo-input');
+            const text = input.value;
+            
+            if (!text.trim()) {
+                input.placeholder = 'Please enter some text to scan...';
+                return;
+            }
+
+            // Simple pattern detection for demo
+            const patterns = [
+                { regex: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, name: 'Email Address', risk: 25 },
+                { regex: /\b\d{3}-\d{2}-\d{4}\b/g, name: 'SSN', risk: 95 },
+                { regex: /\b(?:\d{4}[-\s]?){3}\d{4}\b/g, name: 'Credit Card', risk: 95 },
+                { regex: /(\+\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/g, name: 'Phone Number', risk: 20 },
+                { regex: /\b(click here|claim|prize|urgent|immediately|winner|congratulations|free money)\b/gi, name: 'Scam Pattern', risk: 40 },
+                { regex: /sk-[a-zA-Z0-9]{32,}/g, name: 'API Key', risk: 100 },
+            ];
+
+            let score = 0;
+            const findings = [];
+
+            patterns.forEach(p => {
+                const matches = text.match(p.regex);
+                if (matches) {
+                    score += p.risk * matches.length;
+                    findings.push({ name: p.name, count: matches.length, risk: p.risk });
+                }
+            });
+
+            score = Math.min(score, 100);
+
+            // Update UI
+            const resultsDiv = document.getElementById('demo-results');
+            const scoreEl = document.getElementById('demo-score');
+            const scoreBar = document.getElementById('demo-score-bar');
+            const findingsDiv = document.getElementById('demo-findings');
+
+            resultsDiv.classList.remove('hidden');
+            
+            const color = score > 70 ? 'text-red-400' : (score > 30 ? 'text-yellow-400' : 'text-green-400');
+            const barColor = score > 70 ? 'from-red-500 to-orange-500' : (score > 30 ? 'from-yellow-500 to-orange-500' : 'from-green-500 to-emerald-400');
+            
+            scoreEl.textContent = score + '/100';
+            scoreEl.className = `text-3xl font-black ${color}`;
+            scoreBar.className = `h-full bg-gradient-to-r ${barColor} rounded-full transition-all duration-500`;
+            scoreBar.style.width = score + '%';
+
+            if (findings.length === 0) {
+                findingsDiv.innerHTML = '<p class="text-green-400 font-medium flex items-center gap-2"><i class="ph ph-check-circle"></i> No risks detected!</p>';
+            } else {
+                findingsDiv.innerHTML = findings.map(f => `
+                    <div class="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10">
+                        <span class="text-white font-medium">${f.name}</span>
+                        <span class="text-sm ${f.risk > 50 ? 'text-red-400' : 'text-yellow-400'}">${f.count} found</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
